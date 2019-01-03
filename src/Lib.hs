@@ -1,16 +1,9 @@
 module Lib
     ( someFunc
-    , matchNewBranch
-    , matchUpdateBranch
     ) where
 
 import Gitutils.Matchers
-  ( matchNewBranch
-  , matchUpdateBranch
-  )
-
-import Data.Maybe
-  ( catMaybes
+  ( matchAll
   )
 
 import System.Exit
@@ -26,8 +19,6 @@ import System.Process.Gitutils
   ( echoReadCreateProcessWithExitCode
   )
 
-import Text.Regex.PCRE ((=~~))
-
 import Control.Monad
   ( when
   )
@@ -39,7 +30,7 @@ someFunc = do
   (exitcode, stdout, stderr) <- echoReadCreateProcessWithExitCode cmd ""
   when (exitcode == ExitSuccess) $ do
     let allLines = lines stderr ++ lines stdout
-    let branches = catMaybes [f x | x <- allLines, f <- [matchNewBranch, matchUpdateBranch]]
+    let branches = matchAll allLines
     print branches
   exitWith exitcode
 
