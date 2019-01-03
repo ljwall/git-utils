@@ -15,6 +15,7 @@ import Data.Maybe
 
 import System.Exit
   ( ExitCode (ExitSuccess)
+  , exitWith
   )
 
 import System.Process
@@ -40,6 +41,7 @@ someFunc = do
     let allLines = lines stderr ++ lines stdout
     let branches = catMaybes [f x | x <- allLines, f <- [matchNewBranch, matchUpdateBranch]]
     print branches
+  exitWith exitcode
 
 
 
