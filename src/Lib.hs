@@ -1,5 +1,5 @@
 module Lib
-    ( someFunc
+    ( fetchUi
     ) where
 
 import Gitutils.Matchers
@@ -30,8 +30,8 @@ import Control.Monad
 
 cmd = proc "git" ["fetch"]
 
-someFunc :: IO ()
-someFunc = do
+fetchUi :: IO ()
+fetchUi = do
   (exitcode, stdout, stderr) <- echoReadCreateProcessWithExitCode cmd ""
   if exitcode == ExitSuccess then do
     let allLines = lines stderr ++ lines stdout

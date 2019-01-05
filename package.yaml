@@ -32,8 +32,8 @@ library:
   source-dirs: src
 
 executables:
-  git-utils:
-    main:                Main.hs
+  git-fetch-ui:
+    main:                FetchUiMain.hs
     source-dirs:         app
     ghc-options:
     - -threaded
