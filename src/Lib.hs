@@ -10,6 +10,10 @@ import Brick.Gitutils
   ( chooseItem
   )
 
+import System.Environment
+  ( getArgs
+  )
+
 import System.Exit
   ( ExitCode (ExitSuccess)
   , exitWith
@@ -28,10 +32,11 @@ import Control.Monad
   ( unless
   )
 
-cmd = proc "git" ["fetch"]
 
 fetchUi :: IO ()
 fetchUi = do
+  args <- getArgs
+  let cmd = proc "git" ("fetch":args)
   (exitcode, stdout, stderr) <- echoReadCreateProcessWithExitCode cmd ""
   if exitcode == ExitSuccess then do
     let allLines = lines stderr ++ lines stdout
