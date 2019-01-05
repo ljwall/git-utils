@@ -2,7 +2,7 @@ module Gitutils.Matchers
   ( matchNewBranch
   , matchUpdateBranch
   , matchUpToDateBranch
-  , matchAll
+  , matchAllFetch
   ) where
 
 import Data.Maybe
@@ -30,5 +30,5 @@ matchUpdateBranch :: String -> Maybe String
 matchUpdateBranch = matchRegex "\\s+[0-9a-f]+[.]+[0-9a-f]+\\s+([^\\s]+)\\s+->\\s+"
 
 -- | Take an array of sting and return array of found branch names
-matchAll :: [String] -> [String]
-matchAll lines = catMaybes [f x | x <- lines, f <- [matchNewBranch, matchUpdateBranch, matchUpToDateBranch]]
+matchAllFetch :: [String] -> [String]
+matchAllFetch lines = catMaybes [f x | x <- lines, f <- [matchNewBranch, matchUpdateBranch, matchUpToDateBranch]]

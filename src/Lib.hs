@@ -3,7 +3,7 @@ module Lib
     ) where
 
 import Gitutils.Matchers
-  ( matchAll
+  ( matchAllFetch
   )
 
 import Brick.Gitutils
@@ -32,7 +32,6 @@ import Control.Monad
   ( unless
   )
 
-
 fetchUi :: IO ()
 fetchUi = do
   args <- getArgs
@@ -40,7 +39,7 @@ fetchUi = do
   (exitcode, stdout, stderr) <- echoReadCreateProcessWithExitCode cmd ""
   if exitcode == ExitSuccess then do
     let allLines = lines stderr ++ lines stdout
-    let branches = matchAll allLines
+    let branches = matchAllFetch allLines
     unless (null branches) $ do
       branch <- chooseItem branches
       case branch of
