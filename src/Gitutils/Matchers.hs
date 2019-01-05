@@ -1,6 +1,7 @@
 module Gitutils.Matchers
   ( matchNewBranch
   , matchUpdateBranch
+  , matchUpToDateBranch
   , matchAll
   ) where
 
@@ -20,10 +21,14 @@ matchRegex re ln = do
 matchNewBranch :: String -> Maybe String
 matchNewBranch = matchRegex "\\[new branch\\]\\s+([^\\s]+)\\s+->\\s+" 
 
+-- | Get the branch name from an [up to date] line
+matchUpToDateBranch :: String -> Maybe String
+matchUpToDateBranch = matchRegex "\\[up to date\\]\\s+([^\\s]+)\\s+->\\s+" 
+
 -- | Get the branch name from an updated branch line
 matchUpdateBranch :: String -> Maybe String
 matchUpdateBranch = matchRegex "\\s+[0-9a-f]+[.]+[0-9a-f]+\\s+([^\\s]+)\\s+->\\s+"
 
 -- | Take an array of sting and return array of found branch names
 matchAll :: [String] -> [String]
-matchAll lines = catMaybes [f x | x <- lines, f <- [matchNewBranch, matchUpdateBranch]]
+matchAll lines = catMaybes [f x | x <- lines, f <- [matchNewBranch, matchUpdateBranch, matchUpToDateBranch]]
