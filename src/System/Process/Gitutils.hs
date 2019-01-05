@@ -12,10 +12,15 @@ import System.Process
   , std_in
   , std_out
   , std_err
+  , spawnProcess
   )
 
 import System.Exit
   ( ExitCode
+  )
+
+import System.IO
+  ( FilePath
   )
 
 import GHC.IO.Handle
@@ -43,4 +48,5 @@ echoReadCreateProcessWithExitCode cmd input = do
     exitCode <- waitForProcess ph
     return (exitCode, output, err)
 
-
+callProcessWithExitCode :: FilePath -> [String] -> IO ExitCode
+callProcessWithExitCode bin args = spawnProcess bin args >>= waitForProcess

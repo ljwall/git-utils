@@ -21,6 +21,7 @@ import System.Process
 
 import System.Process.Gitutils
   ( echoReadCreateProcessWithExitCode
+  , callProcessWithExitCode
   )
 
 import Control.Monad
@@ -38,7 +39,8 @@ someFunc = do
     unless (null branches) $ do
       branch <- chooseItem branches
       case branch of
-        Just name -> putStrLn $ "check out: " ++ name
+        Just name -> do putStrLn $ "%%% git checkout " ++ name
+                        callProcessWithExitCode "git" ["checkout", name] >>= exitWith
         Nothing   -> putStrLn "Nothing to do"
   else
     exitWith exitcode
