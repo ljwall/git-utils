@@ -3,10 +3,13 @@ module Gitutils.Matchers
   , matchUpdateBranch
   , matchUpToDateBranch
   , matchAllFetch
+  , matchReflogLine
+  , matchAllReflog
   ) where
 
 import Data.Maybe
   ( catMaybes
+  , mapMaybe
   )
 
 import Text.Regex.PCRE ((=~~))
@@ -28,6 +31,13 @@ matchUpToDateBranch = matchRegex "\\[up to date\\]\\s+([^\\s]+)\\s+->\\s+"
 -- | Get the branch name from an updated branch line
 matchUpdateBranch :: String -> Maybe String
 matchUpdateBranch = matchRegex "\\s+[0-9a-f]+[.]+[0-9a-f]+\\s+([^\\s]+)\\s+->\\s+"
+
+-- | Get the branch name from a reflog checkout line
+matchReflogLine :: String -> Maybe String
+matchReflogLine = matchRegex "moving from ([^\\s]+) to "
+
+matchAllReflog :: [String] -> [String]
+matchAllReflog = mapMaybe matchReflogLine
 
 -- | Take an array of sting and return array of found branch names
 matchAllFetch :: [String] -> [String]
