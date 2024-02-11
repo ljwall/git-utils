@@ -47,7 +47,7 @@ app = (simpleApp undefined)
       const $
       attrMap
         defAttr
-        [ ("selected", bg white)
+        [ ("selected", fg yellow `withStyle` bold)
         , ("footer", fg white `withStyle` bold)
         ]
   }
